@@ -1,0 +1,27 @@
+# templates/index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Startup Idea Evaluator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Startup Idea Evaluator</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label>Enter Startup Idea:</label><br>
+            <textarea name="idea_text"></textarea><br><br>
+            <label>Or Upload File:</label><br>
+            <input type="file" name="file"><br><br>
+            <input type="submit" value="Evaluate">
+        </form>
+        {% if result %}
+        <div class="result">
+            <h3>Analysis Result:</h3>
+            <p>{{ result | safe }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
