@@ -2,3 +2,4 @@ flask
 langchain
 google-generativeai
 python-dotenv
+

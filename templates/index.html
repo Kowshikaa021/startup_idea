@@ -1,27 +1,66 @@
-# templates/index.html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Startup Idea Evaluator</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 700px;
+            margin-top: 50px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        }
+        textarea {
+            resize: vertical;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        // JavaScript to ensure 150 word limit for article input
+        function checkWordLimit() {
+            const text = document.getElementById('idea_text').value;
+            const wordCount = text.split(/\s+/).filter(function(word) { return word.length > 0; }).length;
+            const wordLimit = 150;
+
+            if (wordCount > wordLimit) {
+                alert('Word limit exceeded! Please reduce the content to 150 words or less.');
+                document.getElementById('idea_text').value = text.split(/\s+/).slice(0, wordLimit).join(' ');
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h2>Startup Idea Evaluator</h2>
+        <h2 class="mb-4 text-center">🚀 Startup Idea Evaluator</h2>
         <form method="POST" enctype="multipart/form-data">
-            <label>Enter Startup Idea:</label><br>
-            <textarea name="idea_text"></textarea><br><br>
-            <label>Or Upload File:</label><br>
-            <input type="file" name="file"><br><br>
-            <input type="submit" value="Evaluate">
+            <div class="mb-3">
+                <label for="idea_text" class="form-label">Enter your startup idea (max 150 words if it's an article)</label>
+                <textarea id="idea_text" name="idea_text" class="form-control" rows="5" placeholder="Describe your idea here..." oninput="checkWordLimit()"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Or upload a document (PDF or DOCX)</label>
+                <input class="form-control" type="file" id="file" name="file" accept=".pdf, .docx">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4">Evaluate</button>
+            </div>
         </form>
+
         {% if result %}
-        <div class="result">
-            <h3>Analysis Result:</h3>
+        <div class="alert alert-success mt-4" role="alert">
+            <h4 class="alert-heading">Analysis Result</h4>
             <p>{{ result | safe }}</p>
         </div>
         {% endif %}
     </div>
 </body>
 </html>
-
